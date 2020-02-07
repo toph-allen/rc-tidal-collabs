@@ -1,0 +1,36 @@
+setcps (150/60/4)
+
+
+
+p "metronome" $ sound "click:3 click:2 click:2 click:2"
+  # gain "0.8 0.6 0.6 0.6"
+
+
+-- Kit --
+---------
+
+do
+
+p "kick"
+  $ "[1 ~ ~ 1 . ~ ~ 1 ~ ]*2"
+  # sound "808bd:3"
+  # gain 1
+
+p "clap"
+  $ ". . . 1"
+  # sound "808:3"
+  # gain 0.9
+
+p "closed hat"
+  -- $ "[~ ~ 1 ~ ]*2"
+  $ "~ ~ 1 ~ . ~ ~ 1 1 . ~ ~ 1 ~ . ~ ~ 1 ~"
+  # sound "808:1"
+
+p "rimshot"
+  $ "[1 1 1 1]*4"
+  # sound "808:5"
+  # gain 0.7
+
+
+
+hush
