@@ -9,9 +9,7 @@ p "metronome" $ sound "click:3 click:2 click:2 click:2"
 -- Kit --
 ---------
 
-do
-
-p "kick"
+p "kick" -- pattern $ sample # effects
   $ "[1 ~ ~ 1 . ~ ~ 1 ~ ]*2"
   # sound "808bd:3"
   # gain 1
@@ -32,5 +30,36 @@ p "rimshot"
   # gain 0.7
 
 
+p "notes"
+  -- $ spread fast[1,1,1,1]
+  $ n (arp "up" "d2'ninesus4'") 
+  # s "supermandolin"
+  # lpf 500
+  # gain 2
+
+-- How do we just take the first four notes of a chord??
+p "notes" $
+  -- spread fast[2,2,2,3] $
+  -- gain "1 1 1" #
+  n (arp "up" "d4'ninesus4") #
+  -- n "d4'ninesus4" # -- the note function is doing something to look up the chords
+  -- midinote (take 4 Sound.Tidal.Chords.nineSus4) #
+  s "supermandolin"
+
+chordList
+
+(arp "up" "d4'ninesus4")
+
+n (take 4 Sound.Tidal.Chords.nineSus4)
+
+-- You can access the notes in a chord with:
+
+-- How do we just take the first four notes of a chord??
+p "notes" $
+  -- spread fast[2,2,2,3] $
+  n (arp "up" "d4'ninesus4") #
+  note "d4" Sound.Tidal.Chords.nineSus4
+  -- n midinote "d1'ninesus4"
+  s "supermandolin"
 
 hush
