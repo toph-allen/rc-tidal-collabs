@@ -3,7 +3,7 @@ setcps (150/60/4)
 
 
 p "metronome" $ sound "click:3 click:2 click:2 click:2"
-  # gain "0.8 0.6 0.6 0.6"
+  # gain "0.9 0.6 0.6 0.6"
 
 
 -- Kit --
@@ -20,22 +20,60 @@ p "clap"
   # gain 0.9
 
 p "closed hat"
-  -- $ "[~ ~ 1 ~ ]*2"
-  $ "~ ~ 1 ~ . ~ ~ 1 1 . ~ ~ 1 ~ . ~ ~ 1 ~"
+  $ "[~ ~ 1 ~ ]*2"
+  -- $ "~ ~ 1 ~ . ~ ~ 1 1 . ~ ~ 1 ~ . ~ ~ 1 ~"
   # sound "808:1"
 
+
 p "rimshot"
-  $ "[1 1 1 1]*4"
+  $ slowcat [
+    "[1 1 1 1]*4",
+    "[1 1 1 1]*4",
+    "[1 1 1 1]*4",
+    "[1 1 1 1 . 1 1 1 1 . 1 1 1 1 . 1 1 1 [1 1]]"
+  ]
   # sound "808:5"
-  # gain 0.7
+  # speed (rand * 0.03 + 0.97)
+  # gain (rand * 0.1 + 0.9)
+  -- If 'gain' comes after 'speed' it applies to the whole
+  -- cycle, but if it comes before 'speed' it applies to each
+  -- note. I don't understand.
+  -- Update: It's to do with parens.
 
 
-p "notes"
-  -- $ spread fast[1,1,1,1]
-  $ n (arp "up" "d2'ninesus4'") 
-  # s "supermandolin"
-  # lpf 500
-  # gain 2
+p "notes 1"
+  -- $ spread fast[sine]
+  -- $ slow 1.5
+  $ n (arp "updown" "d3'min'6")
+  >| "1 ~ 1 ~ [1 ~ 1]"
+  # sound "supersaw" # voice 0
+  # attack 0.00 # hold (1 / 12) # decay 0.5 # release 0.4
+  -- # distort 0.5
+  # lpf ((range 400 800 (slow 4 (sine))) + (rand * 50))
+  # resonance (range 0.25 0.4 (slow 4 (cosine)))
+  -- # hpf 0
+  # gain 0.8
+  -- # squiz 1.2
+  -- # fshift 5
+
+  p "notes 2"
+    -- $ spread fast[sine]
+    -- $ slow 1.5
+    $ stack [
+      n (arp "updown" "d6'min'5"),
+      n (arp "updown" "d3'min'6")
+      ]
+    >| "1 ~ 1 ~ [1 ~ 1]"
+    -- # sound "supersaw" # voice 0
+    # sound "superreese" # voice 1
+    # attack 0.00 # hold (1 / 12) # decay 0 # release 0.1
+    -- # distort 0.2
+    # lpf ((range 400 1200 (slow 4 (sine))) + (rand * 50))
+    -- # resonance (range 0.25 0.4 (slow 4 (cosine)))
+    -- # hpf 0
+    # gain 0.7
+    # squiz 1.2
+    -- # fshift 5
 
 -- How do we just take the first four notes of a chord??
 p "notes" $
